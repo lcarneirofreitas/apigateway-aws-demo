@@ -52,10 +52,10 @@ pipeline {
           }
 
           if (tag) {
-             stage("Change routing") {
+             //stage("Change routing") {
      	        sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
                 sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
-             }
+             //}
           }
         }
       }
