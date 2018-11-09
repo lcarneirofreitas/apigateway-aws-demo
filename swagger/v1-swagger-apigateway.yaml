@@ -54,7 +54,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        connectionId: "8xt1nc"
+        connectionId: "XXXXXXXXXX"
         httpMethod: "GET"
         type: "http"
     options:
@@ -132,7 +132,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        connectionId: "2xmgfc"
+        connectionId: "XXXXXXXXXX"
         httpMethod: "GET"
         type: "http"
     options:
@@ -210,7 +210,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        connectionId: "2xmgfc"
+        connectionId: "XXXXXXXXXX"
         httpMethod: "GET"
         type: "http"
     options:
@@ -288,7 +288,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        connectionId: "2xmgfc"
+        connectionId: "XXXXXXXXXX"
         httpMethod: "GET"
         type: "http"
     options:
@@ -366,7 +366,7 @@ paths:
             statusCode: "200"
         passthroughBehavior: "when_no_match"
         connectionType: "VPC_LINK"
-        connectionId: "2xmgfc"
+        connectionId: "XXXXXXXXXX"
         httpMethod: "GET"
         type: "http"
     options:
