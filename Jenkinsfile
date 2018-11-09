@@ -17,5 +17,13 @@ pipeline {
         sh "docker push lcarneirofreitas/simple_api"
       }
     }
+
+    stage('Update Docker') {
+      steps {
+
+        sh "ssh ubuntu@${env.ENVIRONMENT} 'bash -s' < scripts/update-docker.sh"
+      }
+    }
+
   }
 }
