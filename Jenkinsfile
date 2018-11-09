@@ -14,11 +14,14 @@ pipeline {
 
     stage('Build') {
       steps {
+        script {
+          def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
 
-        sh "echo Build"
-        sh "cd simple_api && docker build . -t lcarneirofreitas/simple_api:latest"
-        sh "docker login -u ${env.DKHUBUSER} -p ${env.DKHUBPASS}"
-        sh "docker push lcarneirofreitas/simple_api"
+            sh "echo Build"
+            sh "cd simple_api && docker build . -t lcarneirofreitas/simple_api:$tag"
+            sh "docker login -u ${env.DKHUBUSER} -p ${env.DKHUBPASS}"
+            sh "docker push lcarneirofreitas/simple_api"
+        }
       }
     }
 
@@ -36,37 +39,24 @@ pipeline {
       }
     }
 
-    //stage('Get tag GIT') {
-    //  steps {
-    //          script {
-    //                def tag = sh(returnStdout: true, script: "git tag -l | head -1").trim()
-    //                if (tag) {
-    //                   stage("deploy") {
-    //                       sh "echo $tag"
-    //                   }
-    //               }
-    //          }
-    //  }
-    //}
-
     stage('Routing Api Gateway AWS') {
       steps {
-              script {
-                     def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
+        script {
+          def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
 
-                     if (env.ENVIRONMENT == 'green') {
-                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
-                     } else {
-                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
-                     }
+          if (env.ENVIRONMENT == 'green') {
+             sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
+          } else {
+             sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
+          }
 
-                     if (tag) {
-                        stage("Change routing") {
-     			     sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-         		     sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
-                        }
-                     }
-              }
+          if (tag) {
+             stage("Change routing") {
+     	        sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
+                sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
+             }
+          }
+        }
       }
     }
   }
