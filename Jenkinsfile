@@ -36,20 +36,6 @@ pipeline {
       }
     }
 
-    stage('Routing Api Gateway AWS') {
-      steps {
-              script {
-                     if (env.ENVIRONMENT == 'green') {
-                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
-                     } else {
-                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
-                     }
-             }
-        sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-        sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description 12345678"
-      }
-    }
-
     stage('Get tag GIT') {
       steps {
               script {
@@ -60,6 +46,20 @@ pipeline {
                        }
                    }
               }
+      }
+    }
+
+    stage('Routing Api Gateway AWS') {
+      steps {
+              script {
+                     if (env.ENVIRONMENT == 'green') {
+                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
+                     } else {
+                        sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
+                     }
+             }
+        sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
+        sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
       }
     }
   }
