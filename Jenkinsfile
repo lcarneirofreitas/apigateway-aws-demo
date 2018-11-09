@@ -12,7 +12,8 @@ pipeline {
 
   stages {
 
-    stage('Build') {
+    stage('Build Docker Container') {
+
       steps {
         script {
           def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
@@ -26,7 +27,8 @@ pipeline {
       }
     }
 
-    stage('Update App Docker') {
+    stage('Update Docker Container Server') {
+
       steps {
 
         sh "ssh ubuntu@${env.ENVIRONMENT} 'bash -s' < scripts/update-docker.sh"
@@ -34,6 +36,7 @@ pipeline {
     }
 
     stage('Running App Tests') {
+
       steps {
 
         sh "sleep 10 && echo tests-ok"
@@ -41,6 +44,7 @@ pipeline {
     }
 
     stage('Routing Api Gateway AWS') {
+
       steps {
         script {
           def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
@@ -52,10 +56,8 @@ pipeline {
           }
 
           if (tag) {
-             //stage("Change routing") {
-     	        sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-                sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
-             //}
+     	     sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
+             sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description $tag"
           }
         }
       }
