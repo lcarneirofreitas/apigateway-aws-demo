@@ -53,7 +53,7 @@ pipeline {
     stage('Get tag GIT') {
       steps {
               script {
-                    def tag = sh(returnStdout: true, script: "git tag --contains | head -1").trim()
+                    def tag = sh(returnStdout: true, script: "git tag -l | head -1").trim()
                     if (tag) {
                        stage("deploy") {
                            sh "echo $tag"
