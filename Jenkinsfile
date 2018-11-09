@@ -50,7 +50,7 @@ pipeline {
       }
     }
 
-    stage('Routing Api Gateway AWS') {
+    stage('Get tag GIT') {
       steps {
               script {
                     def tag = sh(returnStdout: true, script: "git tag --contains | head -1").trim()
