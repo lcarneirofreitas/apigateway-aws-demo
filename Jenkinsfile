@@ -17,12 +17,14 @@ pipeline {
       steps {
         script {
           def TAG = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
-
-            sh "cd simple_api && docker build . -t lcarneirofreitas/simple_api:${TAG}"
+          
+          if(TAG) {
+            sh "cd ${APP_NAME} && docker build . -t lcarneirofreitas/simple_api:${TAG}"
             sh "docker login -u ${env.DKHUBUSER} -p ${env.DKHUBPASS}"
             sh "docker tag lcarneirofreitas/simple_api:${TAG} lcarneirofreitas/simple_api:latest"
             sh "docker push lcarneirofreitas/simple_api:${TAG}"
             sh "docker push lcarneirofreitas/simple_api:latest"
+          }
         }
       }
     }
