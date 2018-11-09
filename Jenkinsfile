@@ -16,7 +16,7 @@ pipeline {
 
       steps {
         script {
-          def TAG = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
+          def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
           
           if(TAG) {
             sh "cd ${APP_NAME} && docker build . -t lcarneirofreitas/simple_api:${TAG}"
@@ -49,7 +49,7 @@ pipeline {
 
       steps {
         script {
-          def TAG = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
+          def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
 
           if (env.ENVIRONMENT == 'green') {
              sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
