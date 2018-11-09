@@ -7,6 +7,7 @@ pipeline {
     API_ID = '5oh2kke0g6'
     VPC_LINK_GREEN = '8xt1nc'
     VPC_LINK_BLUE = '2xmgfc'
+    STAGE_NAME = 'v1'
     FILE_YAML = 'v1-swagger-apigateway.yaml'
   }
 
@@ -19,11 +20,11 @@ pipeline {
           def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
           
           if(TAG) {
-            sh "cd ${APP_NAME} && docker build . -t lcarneirofreitas/simple_api:${TAG}"
+            sh "cd ${APP_NAME} && docker build . -t lcarneirofreitas/${env.APP_NAME}:${TAG}"
             sh "docker login -u ${env.DKHUBUSER} -p ${env.DKHUBPASS}"
-            sh "docker tag lcarneirofreitas/simple_api:${TAG} lcarneirofreitas/simple_api:latest"
-            sh "docker push lcarneirofreitas/simple_api:${TAG}"
-            sh "docker push lcarneirofreitas/simple_api:latest"
+            sh "docker tag lcarneirofreitas/${env.APP_NAME}:${TAG} lcarneirofreitas/${env.APP_NAME}:latest"
+            sh "docker push lcarneirofreitas/${env.APP_NAME}:${TAG}"
+            sh "docker push lcarneirofreitas/${env.APP_NAME}:latest"
           }
         }
       }
@@ -59,7 +60,7 @@ pipeline {
 
           if (TAG) {
      	     sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-             sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description '${TAG} ${env.ENVIRONMENT}'"
+             sh "aws apigateway create-deployment --rest-api-id ${env.API_ID} --stage-name ${env.STAGE_NAME} --description '${TAG} ${env.ENVIRONMENT}'"
           }
         }
       }
