@@ -56,7 +56,7 @@ def get_ddrs():
                   })
 
 @app.route('/test/healthcheck', methods=['GET'])
-def get_ddrs():
+def get_test():
     return jsonify({
                     'deployment': socket.gethostname(),
                     'path': '/test'
