@@ -52,7 +52,7 @@ pipeline {
     stage('Routing Api Gateway AWS') {
       steps {
               script {
-                     def tag = sh(returnStdout: true, script: "git tag -l | head -1").trim()
+                     def tag = sh(returnStdout: true, script: "git tag --sort=-refname | head -1").trim()
 
                      if (env.ENVIRONMENT == 'green') {
                         sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
