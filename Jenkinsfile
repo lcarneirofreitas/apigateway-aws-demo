@@ -7,7 +7,7 @@ pipeline {
     API_ID = '5oh2kke0g6'
     VPC_LINK_GREEN = '8xt1nc'
     VPC_LINK_BLUE = '2xmgfc'
-    STAGE_NAME = 'v1'
+    STAGE_VERSION = 'v1'
     FILE_YAML = 'v1-swagger-apigateway.yaml'
   }
 
@@ -60,7 +60,7 @@ pipeline {
 
           if (TAG) {
      	     sh "aws apigateway put-rest-api --rest-api-id '${env.API_ID}' --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-             sh "aws apigateway create-deployment --rest-api-id '${env.API_ID}' --stage-name '${env.STAGE_NAME}' --description '${TAG} ${env.ENVIRONMENT}'"
+             sh "aws apigateway create-deployment --rest-api-id '${env.API_ID}' --stage-name '${env.STAGE_VERSION}' --description '${TAG} ${env.ENVIRONMENT}'"
           }
         }
       }
