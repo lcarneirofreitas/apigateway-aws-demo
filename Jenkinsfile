@@ -57,7 +57,7 @@ pipeline {
 
           if (TAG) {
      	     sh "aws apigateway put-rest-api --rest-api-id ${env.API_ID} --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
-             sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description ${env.ENVIRONMENT}:${TAG}"
+             sh "aws apigateway create-deployment --rest-api-id 5oh2kke0g6 --stage-name v1 --description ${env.ENVIRONMENT} ${TAG}"
           }
         }
       }
