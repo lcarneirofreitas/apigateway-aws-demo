@@ -20,6 +20,18 @@ def get_queues():
                     'path': '/queues'
                   })
 
+@app.route('/peers', methods=['GET'])
+def get_peers_list():
+    return jsonify({
+                    'Cidao': '05011961651310',
+                    'Larigo': '05011961651311',
+                    'Igordao': '05011961651312',
+                    'Eurico': '05011961651313',
+                    '1/2 vida': '05011961651314'
+                    'Louis': '05011961651315'
+                    'Jaime': '05011961651316'
+                  })
+
 @app.route('/peers/healthcheck', methods=['GET'])
 def get_peers():
     return jsonify({
