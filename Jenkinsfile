@@ -50,5 +50,12 @@ pipeline {
       }
     }
 
+    def tag = sh(returnStdout: true, script: "git tag --contains | head -1").trim()
+    if (tag) {
+        stage("deploy") {
+            sh "echo $tag"
+        }
+    }
+
   }
 }
