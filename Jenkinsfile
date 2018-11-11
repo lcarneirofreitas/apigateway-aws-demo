@@ -50,7 +50,6 @@ pipeline {
 
       steps {
         script {
-          def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
 
           if (env.ENVIRONMENT == 'green') {
              sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
