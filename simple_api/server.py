@@ -9,14 +9,14 @@ app = Flask(__name__)
 @app.route('/actions/healthcheck', methods=['GET'])
 def get_actions():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/actions'
                   })
 
 @app.route('/queues/healthcheck', methods=['GET'])
 def get_queues():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/queues'
                   })
 
@@ -37,35 +37,35 @@ def get_peers_list():
 @app.route('/peers/healthcheck', methods=['GET'])
 def get_peers():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/peers'
                   })
 
 @app.route('/calls/healthcheck', methods=['GET'])
 def get_calls():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/calls'
                   })
 
 @app.route('/recording/healthcheck', methods=['GET'])
 def get_recording():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/recording'
                   })
 
 @app.route('/bulk-recording/healthcheck', methods=['GET'])
 def get_bulk():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/bulk-recording'
                   })
 
 @app.route('/ddrs/healthcheck', methods=['GET'])
 def get_ddrs():
     return jsonify({
-                    'deployment': socket.gethostname(),
+                    'environment': socket.gethostname(),
                     'path': '/ddrs'
                   })
 
