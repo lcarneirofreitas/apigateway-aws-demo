@@ -54,7 +54,7 @@ pipeline {
              sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
           }
 
-          if (i${env.TAG}) {
+          if (${env.TAG}) {
      	     sh "aws apigateway put-rest-api --rest-api-id '${env.API_ID}' --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
              sh "aws apigateway create-deployment --rest-api-id '${env.API_ID}' --stage-name '${env.STAGE_VERSION}' --description '${TAG} ${env.ENVIRONMENT}'"
           }
