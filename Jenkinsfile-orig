@@ -9,7 +9,6 @@ pipeline {
     VPC_LINK_BLUE = '2xmgfc'
     STAGE_VERSION = 'v1'
     FILE_YAML = 'v1-swagger-apigateway.yaml'
-    def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
   }
 
   stages {
@@ -17,6 +16,8 @@ pipeline {
     stage('Build Docker Container') {
 
       steps {
+        script {
+          def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
           
           if(TAG) {
             sh "cd ${APP_NAME} && docker build . -t lcarneirofreitas/${env.APP_NAME}:${TAG}"
@@ -27,6 +28,7 @@ pipeline {
           }
         }
       }
+    }
 
     stage('Update Docker Container Server') {
 
@@ -47,6 +49,8 @@ pipeline {
     stage('Routing Api Gateway AWS') {
 
       steps {
+        script {
+          def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
 
           if (env.ENVIRONMENT == 'green') {
              sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_GREEN}/g' swagger/${env.FILE_YAML}"
@@ -58,6 +62,7 @@ pipeline {
      	     sh "aws apigateway put-rest-api --rest-api-id '${env.API_ID}' --mode overwrite --body 'file://swagger/${env.FILE_YAML}'"
              sh "aws apigateway create-deployment --rest-api-id '${env.API_ID}' --stage-name '${env.STAGE_VERSION}' --description '${TAG} ${env.ENVIRONMENT}'"
           }
+        }
       }
     }
   }
