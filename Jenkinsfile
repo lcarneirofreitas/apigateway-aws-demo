@@ -9,7 +9,7 @@ pipeline {
     VPC_LINK_BLUE = '2xmgfc'
     STAGE_VERSION = 'v1'
     FILE_YAML = 'v1-swagger-apigateway.yaml'
-    TAG = sh(returnStdout: true, script: "git describe --tags").trim()
+    TAG = """${sh(returnStdout: true, script: "git describe --tags").trim()}"""
   }
 
   stages {
