@@ -38,12 +38,13 @@ pipeline {
           def RONMENT = sh(
                               returnStdout: true, 
                               script: "curl -s ${env.API_URL} | jq -r '.environment'").trim()
-        }
 
-        if (RONMENT == 'green') {
-            sh "ssh ubuntu@blue 'bash -s' < scripts/update-docker.sh"
-        } else {
-            sh "ssh ubuntu@green 'bash -s' < scripts/update-docker.sh"
+          if (RONMENT == 'green') {
+              sh "ssh ubuntu@blue 'bash -s' < scripts/update-docker.sh"
+          } else {
+              sh "ssh ubuntu@green 'bash -s' < scripts/update-docker.sh"
+          }
+
         }
       }
     }
