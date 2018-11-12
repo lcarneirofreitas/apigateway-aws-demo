@@ -35,11 +35,11 @@ pipeline {
 
       steps {
         script {
-          def RONMENT = sh(
+          def ENVIRONMENT = sh(
                            returnStdout: true, 
                            script: "curl -s ${env.API_URL} | jq -r '.environment'").trim()
 
-          if (RONMENT == 'green') {
+          if (ENVIRONMENT == 'green') {
               sh "ssh ubuntu@blue 'bash -s' < scripts/update-docker.sh"
           } else {
               sh "ssh ubuntu@green 'bash -s' < scripts/update-docker.sh"
@@ -62,11 +62,11 @@ pipeline {
       steps {
         script {
           def TAG = sh(returnStdout: true, script: "git describe --tags").trim()
-          def RONMENT = sh(
+          def ENVIRONMENT = sh(
                            returnStdout: true, 
                            script: "curl -s ${env.API_URL} | jq -r '.environment'").trim()
 
-          if (RONMENT == 'green') {
+          if (ENVIRONMENT == 'green') {
              sh "sed -i 's/XXXXXXXXXX/${env.VPC_LINK_BLUE}/g' swagger/${env.FILE_YAML}"
 
              if (TAG) {
