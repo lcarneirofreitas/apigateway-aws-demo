@@ -69,6 +69,13 @@ def get_ddrs():
                     'path': '/ddrs'
                   })
 
+@app.route('/fila/healthcheck', methods=['GET'])
+def get_fila():
+    return jsonify({
+                    'environment': socket.gethostname(),
+                    'path': '/fila'
+                  })
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
 
